@@ -2,16 +2,20 @@
 # tasks file for glances-ansible-role
 
 - name: Add epel repository
-  yum:
+  package:
     name: "{{ epel_url }}"
     state: present
 
-- name: Add epel repository signing key
+- name: Add epel repository signing key (rpm)
   rpm_key:
     key: "{{ epel_key }}"
 
+- name: Add epel repository signing key (apt)
+  apt_key:
+    key: "{{ epel_key }}"
+
 - name: Install prerequisites
-  yum:
+  package:
     name: "{{ item.package }}"
     state: present
   with_items: "{{ glances_packages_EL }}"
